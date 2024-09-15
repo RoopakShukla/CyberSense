@@ -10,7 +10,8 @@ def home():
 
 @app.route('/login', methods=['POST'])
 def login():
-    return 'logged in'
+    user = request.form('username')
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(port=8000,debug=True)
