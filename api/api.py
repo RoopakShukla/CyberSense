@@ -4,14 +4,9 @@ import os
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/api', methods=['POST','GET'])
 def home():
-    return 'Hello World!'
-
-@app.route('/login', methods=['POST'])
-def login():
-    user = request.form('username')
-    return render_template('index.html')
+    return 'ok api'
 
 if __name__ == '__main__':
     app.run(port=8000,debug=True)
