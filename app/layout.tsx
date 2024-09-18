@@ -1,16 +1,21 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Image from "next/image";
+import Logo from "@/public/images/logo.png";
+import { Inter } from "next/font/google";
+import { Toaster } from "@/components/ui/toaster";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+
+const consolas = localFont({
+  src: "../public/fonts/Consolas-Regular.ttf",
+  variable: "--font-consolas",
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -26,9 +31,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${consolas.className} ${inter.variable} antialiased h-screen flex flex-col`}
       >
+        <header>
+          <nav>
+            <div className="border-b border-indigo-300 h-20 flex justify-center items-center">
+              <Image src={Logo} alt={"logo"} width={52} height={52} />
+            </div>
+          </nav>
+        </header>
         {children}
+        <Toaster />
       </body>
     </html>
   );
