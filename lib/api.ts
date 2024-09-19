@@ -1,19 +1,31 @@
-import { createServer, IncomingMessage, ServerResponse } from "http";
+interface Prompt {
+  text: string
+}
 
-const port = 3000;
+function getPrompt(): Promise<Prompt[]> {
+  const headers: Headers = new Headers()
+  headers.set('Content-Type', 'application/json')
+  headers.set('Accept', 'application/json')
+  headers.set('X_Custom-Header', 'CustomValue')
 
-// Create server
-const server = createServer((req: IncomingMessage, res: ServerResponse) => {
-  if (req.method === "GET" && req.url === "/api/hello") {
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ message: "Hello, World!" }));
-  } else {
-    res.writeHead(404, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ message: "Not Found" }));
-  }
-});
+  const request: RequestInfo = new Request('./users.json', {
+    method: 'GET',
+    headers: headers
+  })
 
-// Start the server
-server.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+  return fetch(request)
+  .then(res => res.json())
+  .then(res => {
+    return res as Prompt[]
+  })
+}
+
+const result = document.getElementById('result')
+if (!result) {
+  throw new Error('Element with id `result` not found')
+}
+
+getPrompt()
+  .then(prompts => {
+    result.innerHTML = prompts.map(p => p.text).toString()
+  })
