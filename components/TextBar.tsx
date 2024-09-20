@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Paperclip, Mic, Send, X } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
 import { Button } from "./ui/button";
+import { supportedFileTypes } from "@/lib/utils";
+import { getPrompt } from "@/lib/api";
 
 const TextBar = () => {
   const { toast } = useToast();
@@ -13,39 +15,14 @@ const TextBar = () => {
   const [files, setFiles] = useState<any>([]);
   const [path, setPath] = useState<string[]>([]);
 
-  const supportedFileTypes = [
-    "image/png",
-    "image/jpeg",
-    "video/x-flv",
-    "video/quicktime",
-    "video/mpeg",
-    "video/mpegps",
-    "video/mpg",
-    "video/mp4",
-    "video/webm",
-    "video/wmv",
-    "video/3gpp",
-    "audio/aac",
-    "audio/mpeg",
-    "audio/flac",
-    "audio/mp3",
-    "audio/m4a",
-    "audio/mpeg",
-    "audio/mpga",
-    "audio/mp4",
-    "audio/opus",
-    "audio/pcm",
-    "audio/wav",
-    "audio/webm",
-    "application/pdf",
-  ];
-
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
     setValue(e.target.value);
   };
 
   const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
     const fileUploaded = e.target.files![0];
 
     if (files.length === 0 && path.length === 0) {
@@ -83,9 +60,6 @@ const TextBar = () => {
         setPath([...path, e.target.value]);
 
         e.target.value = "";
-
-        /* const reader = new FileReader();
-                reader.readAsDataURL(fileUploaded); */
 
         return;
       }
