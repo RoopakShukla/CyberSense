@@ -66,7 +66,9 @@ const TextBar = () => {
     }
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    getPrompt({ text: value, file: files });
+  };
 
   return (
     <main className="w-[864px] z-10 mx-6 mb-3 min-h-[76px] flex flex-col rounded-[32px] bg-[#292C31] shadow-xl">
