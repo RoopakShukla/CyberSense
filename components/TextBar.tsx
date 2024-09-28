@@ -69,16 +69,10 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
   const handleSubmit = async () => {
     if (value.trim()) {
       updateChat({ role: "user", parts: { text: value } });
-
       const modelResponse = await getPrompt({text: value, file:files});
-
       updateChat({ role: "model", parts: { text: modelResponse } });
-
       setValue('');
     }
-
-    // await getPrompt({ text: value, file: files }).then((res) => {
-    // });
   };
 
   return (
