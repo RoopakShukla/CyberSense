@@ -67,11 +67,18 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
   };
 
   const handleSubmit = async () => {
-    updateChat({ role: "user", parts: { text: value } });
+    if (value.trim()) {
+      updateChat({ role: "user", parts: { text: value } });
 
-    await getPrompt({ text: value, file: files }).then((res) => {
-      updateChat({ role: "model", parts: { text: res } });
-    });
+      const modelResponse = await getPrompt({text: value, file:files});
+
+      updateChat({ role: "model", parts: { text: modelResponse } });
+
+      setValue('');
+    }
+
+    // await getPrompt({ text: value, file: files }).then((res) => {
+    // });
   };
 
   return (

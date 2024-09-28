@@ -8,7 +8,7 @@ const App = () => {
   const [chat, setChat] = useState<any>([]);
 
   const handleChat = (chatPart: any) => {
-    setChat([...chat, chatPart]);
+    setChat((prevChat: any) => [...prevChat, chatPart]);
   };
 
   useEffect(() => {

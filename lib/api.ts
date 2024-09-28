@@ -35,8 +35,6 @@ export const getPrompt = async ({ text, file }: { text: string; file: [] }) => {
 
   pushToChatHistory(text, modelResponse.response.text());
 
-  /* console.log(fullChatHistory);
-  console.log(modelResponse.response.text()); */
-
+  // console.log(fullChatHistory);
   return modelResponse.response.text();
 };
