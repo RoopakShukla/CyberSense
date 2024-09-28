@@ -8,7 +8,7 @@ import { Button } from "./ui/button";
 import { supportedFileTypes } from "@/lib/utils";
 import { getPrompt } from "@/lib/api";
 
-const TextBar = () => {
+const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
   const { toast } = useToast();
 
   const [value, setValue] = useState("");
@@ -66,8 +66,12 @@ const TextBar = () => {
     }
   };
 
-  const handleSubmit = () => {
-    getPrompt({ text: value, file: files });
+  const handleSubmit = async () => {
+    updateChat({ role: "user", parts: { text: value } });
+
+    await getPrompt({ text: value, file: files }).then((res) => {
+      updateChat({ role: "model", parts: { text: res } });
+    });
   };
 
   return (
@@ -91,8 +95,11 @@ const TextBar = () => {
                     className="w-6 h-6"
                     onClick={() => {
                       setFiles(files.filter((f: any) => f !== file));
-                      const filePath = "C:\\fakepath\\" + file.name;
-                      setPath(path.filter((p: any) => p !== filePath));
+                      setPath(
+                        path.filter(
+                          (p: any) => p !== "C:\\fakepath\\" + file.name
+                        )
+                      );
                     }}
                   />
                 </Button>

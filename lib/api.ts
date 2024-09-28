@@ -11,35 +11,32 @@ const model = genAI.getGenerativeModel({
 });
 
 // Define a function to push chat history to the fullChatHistory array
-const fullChatHistory: { role: string, parts: { text: string }[] }[] = [];
+const fullChatHistory: { role: string; parts: { text: string }[] }[] = [];
 
 // Function to push userPrompt and modelResponse in fullChatHistory
 const pushToChatHistory = (userPrompt: string, modelResponse: string) => {
   fullChatHistory.push({
     role: "user",
-    parts: [{ text: userPrompt }]
+    parts: [{ text: userPrompt }],
   });
 
   fullChatHistory.push({
     role: "model",
-    parts: [{ text: modelResponse }]
+    parts: [{ text: modelResponse }],
   });
 };
 
 // Main function
 export const getPrompt = async ({ text, file }: { text: string; file: [] }) => {
-  
-  // Function to Start the chat
-  const handleChat = async (userprompt: string) => {
-    const trimmedHistory = [...fullChatHistory];
-    
-    const chat = await model.startChat({history:trimmedHistory});
-    const modelResponse = await chat.sendMessage(userprompt);
+  const trimmedHistory = [...fullChatHistory];
 
-    pushToChatHistory(userprompt,modelResponse.response.text());
+  const chat = await model.startChat({ history: trimmedHistory });
+  const modelResponse = await chat.sendMessage(text);
 
-    console.log(fullChatHistory);
-    console.log(modelResponse.response.text());
-  };
-  handleChat(text);
+  pushToChatHistory(text, modelResponse.response.text());
+
+  /* console.log(fullChatHistory);
+  console.log(modelResponse.response.text()); */
+
+  return modelResponse.response.text();
 };
