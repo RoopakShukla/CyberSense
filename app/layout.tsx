@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${consolas.className} ${inter.variable} antialiased h-screen flex flex-col`}
+        className={`${consolas.className} ${inter.variable} antialiased h-screen flex flex-col overflow-hidden`}
       >
         <header>
           <nav>

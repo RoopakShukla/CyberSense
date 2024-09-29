@@ -9,4 +9,7 @@ export const supportedFileTypes = [
   "image/png",
   "image/jpeg",
   "application/pdf",
+  "text/plain",
+  "text/csv",
+  "text/html"
 ];

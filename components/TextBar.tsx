@@ -1,19 +1,32 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Paperclip, Mic, Send, X } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
 import { Button } from "./ui/button";
 import { supportedFileTypes } from "@/lib/utils";
 import { getPrompt } from "@/lib/api";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 
 const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
   const { toast } = useToast();
 
   const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState<any>([]);
   const [path, setPath] = useState<string[]>([]);
+
+  const [micOn, setMicOn] = useState(false);
+
+  const {
+    transcript,
+    resetTranscript,
+    listening,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
@@ -21,8 +34,6 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
   };
 
   const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-
     const fileUploaded = e.target.files![0];
 
     if (files.length === 0 && path.length === 0) {
@@ -30,21 +41,15 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
       setPath([e.target.value]);
 
       e.target.value = "";
-
-      return;
     } else {
       if (path.includes(e.target.value)) {
         toast({
           description: "File already exists",
         });
-
-        return;
       } else if (fileUploaded.size > 20971520) {
         toast({
           description: "File size cannot exceed 20MB",
         });
-
-        return;
       } else if (!supportedFileTypes.includes(fileUploaded.type)) {
         toast({
           description:
@@ -52,28 +57,60 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
             fileUploaded.type.split("/")[1] +
             " is not supported",
         });
-
-        return;
       } else {
         setFiles([...files, Object(fileUploaded)]);
 
         setPath([...path, e.target.value]);
 
         e.target.value = "";
-
-        return;
       }
     }
   };
 
   const handleSubmit = async () => {
+    if (micOn) {
+      setMicOn(false);
+      SpeechRecognition.stopListening();
+    }
+
     if (value.trim()) {
+      setLoading(true);
       updateChat({ role: "user", parts: { text: value } });
-      const modelResponse = await getPrompt({text: value, file:files});
+      setValue("");
+
+      const modelResponse = await getPrompt({ text: value, file: files });
+
       updateChat({ role: "model", parts: { text: modelResponse } });
-      setValue('');
+      setLoading(false);
     }
   };
+
+  const handleMic = () => {
+    if (value === "") {
+      resetTranscript();
+    }
+
+    if (micOn) {
+      setMicOn(false);
+      SpeechRecognition.stopListening();
+    } else {
+      if (!browserSupportsSpeechRecognition) {
+        return toast({
+          description: "Your browser does not support speech recognition",
+        });
+      }
+
+      setMicOn(true);
+
+      SpeechRecognition.startListening({
+        continuous: true,
+      });
+    }
+  };
+
+  useEffect(() => {
+    setValue(transcript);
+  }, [transcript]);
 
   return (
     <main className="w-[864px] z-10 mx-6 mb-3 min-h-[76px] flex flex-col rounded-[32px] bg-[#292C31] shadow-xl">
@@ -134,12 +171,15 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
               onChange={handleFiles}
             ></input>
           </Button>
-          <Button className="my-4 bg-transparent p-0 hover:bg-transparent rounded-full">
-            <Mic />
+          <Button
+            className="my-4 bg-transparent p-0 hover:bg-transparent rounded-full"
+            onClick={handleMic}
+          >
+            {micOn ? <Mic color="#a5b4fc" /> : <Mic />}
           </Button>
           <Button
             className="my-4 bg-transparent p-0 hover:bg-transparent"
-            disabled={value === ""}
+            disabled={value === "" || loading}
             onClick={handleSubmit}
           >
             <Send />

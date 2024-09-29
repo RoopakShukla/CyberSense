@@ -1,6 +1,7 @@
 // Import Important Modules
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import "regenerator-runtime/runtime";
 
 // Define .env and Model
 const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_API_KEY!);

@@ -3,7 +3,7 @@ import BubbleText from "./BubbleText";
 
 const Hero = () => {
   return (
-    <div className="flex flex-col gap-8   ">
+    <div className="flex flex-col gap-8 items-center">
       <div className="text-5xl font-inter font-thin text-indigo-300">
         <BubbleText />
       </div>
