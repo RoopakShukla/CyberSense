@@ -19,12 +19,7 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
   const [files, setFiles] = useState<any>([]);
   const [base64Files, setBase64Files] = useState<any>([]);
   const [path, setPath] = useState<string[]>([]);
-
   const [micOn, setMicOn] = useState(false);
-
-  useEffect(() => {
-    console.log(base64Files);
-  }, [base64Files]);
 
   const {
     transcript,
