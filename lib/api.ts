@@ -1,10 +1,12 @@
 // Import Important Modules
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleAIFileManager } from "@google/generative-ai/server";
 import "regenerator-runtime/runtime";
 
-// Define .env and Model
+// Constants
 const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_API_KEY!);
+
 const model = genAI.getGenerativeModel({
   model: "gemini-1.5-flash",
   systemInstruction:
@@ -31,11 +33,16 @@ const pushToChatHistory = (userPrompt: string, modelResponse: string) => {
 export const getPrompt = async ({ text, file }: { text: string; file: [] }) => {
   const trimmedHistory = [...fullChatHistory];
 
-  const chat = await model.startChat({ history: trimmedHistory });
-  const modelResponse = await chat.sendMessage(text);
+  if (file.length === 0) {
+    const chat = await model.startChat({ history: trimmedHistory });
+    const modelResponse = await chat.sendMessage(text);
+    pushToChatHistory(text, modelResponse.response.text());
 
-  pushToChatHistory(text, modelResponse.response.text());
+    return modelResponse.response.text();
+  } else {
+    const result = await model.generateContent([text, ...file]);
 
-  // console.log(fullChatHistory);
-  return modelResponse.response.text();
+    pushToChatHistory(text, result.response.text());
+    return result.response.text;
+  }
 };
