@@ -17,9 +17,14 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState<any>([]);
+  const [base64Files, setBase64Files] = useState<any>([]);
   const [path, setPath] = useState<string[]>([]);
 
   const [micOn, setMicOn] = useState(false);
+
+  useEffect(() => {
+    console.log(base64Files);
+  }, [base64Files]);
 
   const {
     transcript,
@@ -37,7 +42,23 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
     const fileUploaded = e.target.files![0];
 
     if (files.length === 0 && path.length === 0) {
-      setFiles([Object(fileUploaded)]);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64string = reader.result?.toString();
+        const base64 = base64string?.replace(/^data:.+;base64,/, "");
+
+        setBase64Files([
+          {
+            inlineData: {
+              data: base64,
+              mimeType: fileUploaded.type,
+            },
+          },
+        ]);
+      };
+      reader.readAsDataURL(fileUploaded);
+
+      setFiles([fileUploaded]);
       setPath([e.target.value]);
 
       e.target.value = "";
@@ -58,8 +79,24 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
             " is not supported",
         });
       } else {
-        setFiles([...files, Object(fileUploaded)]);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64string = reader.result?.toString();
+          const base64 = base64string?.replace(/^data:.+;base64,/, "");
 
+          setBase64Files([
+            ...base64Files,
+            {
+              inlineData: {
+                data: base64,
+                mimeType: fileUploaded.type,
+              },
+            },
+          ]);
+        };
+        reader.readAsDataURL(fileUploaded);
+
+        setFiles([...files, fileUploaded]);
         setPath([...path, e.target.value]);
 
         e.target.value = "";
@@ -78,7 +115,7 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
       updateChat({ role: "user", parts: { text: value } });
       setValue("");
 
-      const modelResponse = await getPrompt({ text: value, file: files });
+      const modelResponse = await getPrompt({ text: value, file: base64Files });
 
       updateChat({ role: "model", parts: { text: modelResponse } });
       setLoading(false);
