@@ -5,7 +5,6 @@ import TextBar from "@/components/TextBar";
 import { useEffect, useRef, useState } from "react";
 import Markdown from "react-markdown";
 
-
 const App = () => {
   const [chat, setChat] = useState<any>([]);
   const ref = useRef<HTMLDivElement>(null);
@@ -30,27 +29,41 @@ const App = () => {
             </div>
           ))}
         {chat && chat.length > 0 && (
-          <div className="w-[850px] flex flex-col flex-1 justify-end gap-2">
+          <div className="w-[850px] max-sm:w-[360px] max-md:w-[576px] max-lg:w-[768px] flex flex-col flex-1 justify-end gap-2">
             {chat.map((chatPart: any, idx: number) =>
               chatPart.role === "user" ? (
-                <div
-                  key={idx}
-                  className="w-full flex flex-col items-end animate-slide-up"
-                  ref={ref}
-                >
-                  <div className="w-fit bg-[#292C31] py-4 px-6 rounded-3xl rounded-br-sm">
-                    <div className="text-justify text-gray-300 font-inter">
-                      {chatPart.parts.text}
+                <>
+                  {chatPart.parts.file.length != 0 ? (
+                    <div className="w-full flex flex-col items-end gap-1 animate-slide-up">
+                      {chatPart.parts.file.map((file: any, idx: number) => (
+                        <div className="w-fit flex flex-row gap-2 p-6 max-sm:p-4 max-md:p-5 bg-[#333333] rounded-3xl">
+                          <p className="max-sm:text-xs">{file.name}</p>
+                          <p className="max-sm:text-xs">
+                            ({file.type.split("/")[1].toUpperCase()})
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
+                  <div
+                    key={idx}
+                    className="w-full flex flex-col items-end animate-slide-up"
+                    ref={ref}
+                  >
+                    <div className="w-fit bg-[#292C31] py-4 px-6 rounded-3xl rounded-br-sm">
+                      <div className="text-justify max-sm:text-sm text-gray-300 font-inter">
+                        {chatPart.parts.text}
+                      </div>
                     </div>
                   </div>
-                </div>
+                </>
               ) : (
                 <div
                   key={idx}
-                  className="w-fit bg-[#1E1E1E] py-4 px-6 rounded-3xl rounded-tl-sm  animate-slide-up"
+                  className="w-fit bg-[#1E1E1E] py-4 px-6 rounded-3xl rounded-bl-sm  animate-slide-up"
                   ref={ref}
                 >
-                  <div className="text-justify text-gray-300 font-consolas">
+                  <div className="text-justify max-sm:text-sm text-gray-300 font-consolas">
                     <Markdown>{chatPart.parts.text}</Markdown>
                   </div>
                 </div>
@@ -61,7 +74,7 @@ const App = () => {
       </div>
       <div className="w-fit flex flex-col items-center fixed bottom-0 pt-4 bg-[#151515]">
         <TextBar updateChat={handleChat} />
-        <p className="pb-4 text-xs text-gray-300 font-inter">
+        <p className="pb-4 px-2 text-xs max-sm:text-[10px] max-sm:w-[300px] max-sm:pb-2 max-sm:text-wrap text-gray-300 font-inter">
           Powered by Gemini. It may display inaccurate info, so double-check its
           responses.
         </p>

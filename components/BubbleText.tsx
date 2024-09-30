@@ -64,7 +64,7 @@ const BubbleText = () => {
   }, []);
 
   return (
-    <h2 className="hover-text text-center text-5xl font-thin text-indigo-300">
+    <h2 className="hover-text text-center text-5xl max-sm:text-4xl font-thin text-indigo-300">
       <Text>CYBER SENSE</Text>
     </h2>
   );

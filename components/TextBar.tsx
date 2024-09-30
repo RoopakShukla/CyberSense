@@ -107,7 +107,10 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
 
     if (value.trim()) {
       setLoading(true);
-      updateChat({ role: "user", parts: { text: value } });
+      updateChat({ role: "user", parts: { text: value, file: files } });
+
+      setFiles([]);
+      setPath([]);
       setValue("");
 
       const modelResponse = await getPrompt({ text: value, file: base64Files });
@@ -145,12 +148,12 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
   }, [transcript]);
 
   return (
-    <main className="w-[864px] z-10 mx-6 mb-3 min-h-[76px] flex flex-col rounded-[32px] bg-[#292C31] shadow-xl">
+    <main className="w-[864px] max-lg:w-[768px] max-md:w-[576px] max-sm:w-[360px] z-10 mx-6 mb-3 min-h-[76px] max-sm:min-h-[72px] flex flex-col rounded-[32px] max-sm:rounded-[28px] bg-[#292C31] shadow-xl">
       {files.length > 0 && (
-        <div className="h-56 p-4 grid grid-cols-2 gap-4 grid-rows-2 text-slate-200">
+        <div className="h-56 max-sm:h-40 p-4 grid grid-cols-2 gap-4 grid-rows-2 text-slate-200">
           {files.map((file: any) => (
             <div
-              className="flex flex-row bg-[#1E1E1E] p-6 rounded-2xl items-center justify-between"
+              className="flex flex-row bg-[#1E1E1E] max-sm:text-xs p-6 max-sm:p-4 rounded-2xl items-center justify-between"
               key={file.name}
             >
               <div className="w-[50%] items-center">
@@ -162,7 +165,7 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
               <div className="flex flex-row justify-center items-center">
                 <Button className="bg-transparent p-0 hover:bg-transparent">
                   <X
-                    className="w-6 h-6"
+                    className="w-6 max-sm:w-4"
                     onClick={() => {
                       setFiles(files.filter((f: any) => f !== file));
                       setPath(
@@ -186,15 +189,15 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
           placeholder="“Summarize an audit report”"
           onChange={handleChange}
           maxRows={8}
-          className="scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-[#3D4147] hover:scrollbar-thumb-[#595F6A] scrollbar-track-[#292C31] w-full bg-[#292C31] ml-8 px-0 py-6 text-lg text-white resize-none outline-none"
+          className="scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-[#3D4147] hover:scrollbar-thumb-[#595F6A] scrollbar-track-[#292C31] w-full bg-[#292C31] ml-8 px-0 py-6 max-sm:py-[28px] text-lg max-sm:text-xs text-white resize-none outline-none"
         />
-        <div className="flex flex-row gap-8 px-8 items-end">
+        <div className="flex flex-row gap-8 px-8 items-end max-md:px-6 max-sm:px-4 max-md:gap-5 max-sm:gap-3">
           <Button
             className="my-4 bg-transparent p-0 hover:bg-transparent"
             disabled={files.length === 3}
           >
             <label htmlFor="files" className="cursor-pointer">
-              <Paperclip />
+              <Paperclip className="max-md:w-5 max-sm:w-4" />
             </label>
             <input
               id="files"
@@ -207,14 +210,18 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
             className="my-4 bg-transparent p-0 hover:bg-transparent rounded-full"
             onClick={handleMic}
           >
-            {micOn ? <Mic color="#a5b4fc" /> : <Mic />}
+            {micOn ? (
+              <Mic color="#a5b4fc" className="max-md:w-5 max-sm:w-4" />
+            ) : (
+              <Mic className="max-md:w-5 max-sm:w-4" />
+            )}
           </Button>
           <Button
             className="my-4 bg-transparent p-0 hover:bg-transparent"
             disabled={value === "" || loading}
             onClick={handleSubmit}
           >
-            <Send />
+            <Send className="max-md:w-5 max-sm:w-4" />
           </Button>
         </div>
       </div>

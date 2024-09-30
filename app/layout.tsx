@@ -35,8 +35,14 @@ export default function RootLayout({
       >
         <header>
           <nav>
-            <div className="border-b border-indigo-300 h-20 flex justify-center items-center">
-              <Image src={Logo} alt={"logo"} width={52} height={52} />
+            <div className="border-b border-indigo-300 h-20 max-sm:h-16 max-md:h-[72px] flex justify-center items-center">
+              <Image
+                src={Logo}
+                alt={"logo"}
+                width={52}
+                height={52}
+                className="max-sm:w-[38px] max-md:w-[46px]"
+              />
             </div>
           </nav>
         </header>
