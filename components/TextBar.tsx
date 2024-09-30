@@ -21,11 +21,8 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
   const [path, setPath] = useState<string[]>([]);
   const [micOn, setMicOn] = useState(false);
 
-  const {
-    transcript,
-    resetTranscript,
-    browserSupportsSpeechRecognition,
-  } = useSpeechRecognition();
+  const { transcript, resetTranscript, browserSupportsSpeechRecognition } =
+    useSpeechRecognition();
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
@@ -159,7 +156,11 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
                 <p className="overflow-hidden text-ellipsis text-nowrap">
                   {file.name}
                 </p>
-                <p>{file.name.split(".")[1].toUpperCase()}</p>
+                <p>
+                  {file.name
+                    .split(".")
+                    [file.name.split(".").length - 1].toUpperCase()}
+                </p>
               </div>
               <div className="flex flex-row justify-center items-center">
                 <Button className="bg-transparent p-0 hover:bg-transparent">
