@@ -36,7 +36,10 @@ const App = () => {
                   {chatPart.parts.file.length != 0 ? (
                     <div className="w-full flex flex-col items-end gap-1 animate-slide-up">
                       {chatPart.parts.file.map((file: any, idx: number) => (
-                        <div className="w-fit flex flex-row gap-2 p-6 max-sm:p-4 max-md:p-5 bg-[#333333] rounded-3xl">
+                        <div
+                          className="w-fit flex flex-row gap-2 p-6 max-sm:p-4 max-md:p-5 bg-[#333333] rounded-3xl"
+                          key={idx}
+                        >
                           <p className="max-sm:text-xs">{file.name}</p>
                           <p className="max-sm:text-xs">
                             ({file.type.split("/")[1].toUpperCase()})

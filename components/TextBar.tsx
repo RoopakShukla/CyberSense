@@ -24,7 +24,6 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
   const {
     transcript,
     resetTranscript,
-    listening,
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
 
