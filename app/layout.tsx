@@ -20,7 +20,8 @@ const consolas = localFont({
 
 export const metadata: Metadata = {
   title: "Cyber Sense",
-  description: "Uncover, Analyze, Secure: AI-driven insights from audit reports in real time.",
+  description:
+    "Uncover, Analyze, Secure: AI-driven insights from audit reports in real time.",
 };
 
 export default function RootLayout({
