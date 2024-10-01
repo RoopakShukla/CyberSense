@@ -15,6 +15,7 @@ const inter = Inter({
 const consolas = localFont({
   src: "../public/fonts/Consolas-Regular.ttf",
   variable: "--font-consolas",
+  display:'swap',
   weight: "400",
 });
 
