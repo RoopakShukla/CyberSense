@@ -32,13 +32,27 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
   const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileUploaded = e.target.files![0];
 
-    if (files.length === 0 && path.length === 0) {
+    if (path.includes(e.target.value)) {
+      toast({
+        description: "File already exists",
+      });
+    } else if (fileUploaded.size > 20971520) {
+      toast({
+        description: "File size cannot exceed 20MB",
+      });
+    } else if (!supportedFileTypes.includes(fileUploaded.type)) {
+      toast({
+        description:
+          "File type " + fileUploaded.type.split("/")[1] + " is not supported",
+      });
+    } else {
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64string = reader.result?.toString();
         const base64 = base64string?.replace(/^data:.+;base64,/, "");
 
         setBase64Files([
+          ...base64Files,
           {
             inlineData: {
               data: base64,
@@ -49,49 +63,10 @@ const TextBar = ({ updateChat }: { updateChat: (userPrmopt: any) => void }) => {
       };
       reader.readAsDataURL(fileUploaded);
 
-      setFiles([fileUploaded]);
-      setPath([e.target.value]);
+      setFiles([...files, fileUploaded]);
+      setPath([...path, e.target.value]);
 
       e.target.value = "";
-    } else {
-      if (path.includes(e.target.value)) {
-        toast({
-          description: "File already exists",
-        });
-      } else if (fileUploaded.size > 20971520) {
-        toast({
-          description: "File size cannot exceed 20MB",
-        });
-      } else if (!supportedFileTypes.includes(fileUploaded.type)) {
-        toast({
-          description:
-            "File type " +
-            fileUploaded.type.split("/")[1] +
-            " is not supported",
-        });
-      } else {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const base64string = reader.result?.toString();
-          const base64 = base64string?.replace(/^data:.+;base64,/, "");
-
-          setBase64Files([
-            ...base64Files,
-            {
-              inlineData: {
-                data: base64,
-                mimeType: fileUploaded.type,
-              },
-            },
-          ]);
-        };
-        reader.readAsDataURL(fileUploaded);
-
-        setFiles([...files, fileUploaded]);
-        setPath([...path, e.target.value]);
-
-        e.target.value = "";
-      }
     }
   };
 

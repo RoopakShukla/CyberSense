@@ -11,5 +11,5 @@ export const supportedFileTypes = [
   "application/pdf",
   "text/plain",
   "text/csv",
-  "text/html"
+  "text/html",
 ];
