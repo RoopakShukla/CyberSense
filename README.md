@@ -49,7 +49,7 @@ To run this project, ensure you have the following:
    ```
 4. Set up your environment variables for Gemini API key
    ```sh
-    echo "GEMINI_API_KEY=your-api-key-here" > .env
+    echo "NEXT_PUBLIC_API_KEY=your-api-key-here" > .env
    ```
 ## Usage
 
