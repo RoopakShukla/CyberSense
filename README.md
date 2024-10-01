@@ -1,4 +1,3 @@
-
 <br/>
 <div align="center">
 <a href="https://github.com/ShaanCoding/ReadME-Generator">
@@ -71,5 +70,5 @@ Contributions are welcome! If you'd like to improve Cyber Sense, feel free to fo
 Distributed under the MIT License. See [MIT License](https://opensource.org/licenses/MIT) for more information.
 ## Contact
 
-Roopak Shukla - roopakshukla@gmail.com
+Roopak Shukla - roopakshukla5@gmail.com
 Sujal Suhaas - sujalsuhaas2007@gmail.com
