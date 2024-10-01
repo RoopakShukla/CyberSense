@@ -9,13 +9,14 @@ import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 const consolas = localFont({
   src: "../public/fonts/Consolas-Regular.ttf",
   variable: "--font-consolas",
-  display:'swap',
+  display: "swap",
   weight: "400",
 });
 
