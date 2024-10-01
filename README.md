@@ -67,7 +67,7 @@ Contributions are welcome! If you'd like to improve Cyber Sense, feel free to fo
 5. Open a Pull Request
 ## License
 
-Distributed under the MIT License. See [MIT License](https://opensource.org/licenses/MIT) for more information.
+Distributed under the MIT License. See [MIT License](https://github.com/RoopakShukla/CyberSense/blob/main/LICENSE) for more information.
 ## Contact
 
 Roopak Shukla - roopakshukla5@gmail.com
