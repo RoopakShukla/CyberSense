@@ -1,6 +1,6 @@
 <br/>
 <div align="center">
-<a href="https://github.com/ShaanCoding/ReadME-Generator">
+<a href="https://github.com/RoopakShukla/CyberSense">
 <img src="https://i.imgur.com/K0YGIAL.png" alt="Logo" width="80" height="80">
 </a>
 <h3 align="center">Cyber Sense</h3>
