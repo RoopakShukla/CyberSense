@@ -8,8 +8,10 @@
 Uncover, Analyze, Secure: AI-driven insights from audit reports in real time.
 <br/>
 <br/>
-<a href="https://github.com/RoopakShukla/CyberSense">View Demo .</a>  
-<a href="https://github.com/RoopakShukla/CyberSense/issues/new?labels=bug&template=bug-report---.md">Report Bug .</a>
+<a href="https://github.com/RoopakShukla/CyberSense">View Demo</a> 
+<span>&nbsp;·&nbsp;</span>
+<a href="https://github.com/RoopakShukla/CyberSense/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+<span>&nbsp;·&nbsp;</span>
 <a href="https://github.com/RoopakShukla/CyberSense/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
 </p>
 </div>
