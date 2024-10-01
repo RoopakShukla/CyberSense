@@ -34,7 +34,7 @@ To run this project, ensure you have the following:
 
 - [Node.js](https://nodejs.org/) (v14 or later)
 - An active **Gemini API** key (Sign up at [Gemini API](https://aistudio.google.com/app/apikey))
-- Cybersecurity audit reports in supported formats (PDF, DOCX, etc.)
+- Cybersecurity audit reports in supported formats (PDF, Image(JPG, JPEG), etc.)
 ### Installation
 
 1. Get a free API Key at [Google AI Studio](https://aistudio.google.com/app/apikey)
